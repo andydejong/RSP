@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>RSP // Arena</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <main class="app-shell">
+    <header class="topbar">
+      <div class="brand">
+        <span class="brand-mark">RSP</span>
+        <div><p class="eyebrow">TACTICAL BOARD GAME</p><h1>RSP // Arena</h1></div>
+      </div>
+      <div class="turn-readout" id="turnReadout" aria-live="polite"><span class="pulse"></span> Your turn</div>
+    </header>
+
+    <section class="controls" aria-label="Game controls">
+      <div class="control-group">
+        <span class="control-label">Mode</span>
+        <div class="segmented" role="group" aria-label="Choose game mode">
+          <button class="segment active" data-mode="small">The Small Game</button>
+          <button class="segment" data-mode="big">The Big Game</button>
+        </div>
+      </div>
+      <div class="control-group">
+        <span class="control-label">First move</span>
+        <div class="segmented" role="group" aria-label="Choose first player">
+          <button class="segment active" data-first="human">You</button>
+          <button class="segment" data-first="computer">Computer</button>
+        </div>
+      </div>
+      <button class="new-game" id="newGame">New game <span>↻</span></button>
+    </section>
+
+    <div class="game-layout">
+      <section class="board-panel">
+        <div class="board-wrap"><div class="board" id="board" role="grid" aria-label="RSP game board"></div></div>
+        <div class="board-legend"><span><i class="legend-swatch light"></i> Unplayable</span><span><i class="legend-swatch dark"></i> Playable</span><span><i class="legend-dot"></i> Computer's last move</span></div>
+      </section>
+
+      <aside class="sidebar">
+        <section class="status-panel">
+          <p class="eyebrow">MATCH STATUS</p>
+          <h2 id="statusTitle">Your move</h2>
+          <p id="statusDetail">Select one of your pieces to see its legal moves.</p>
+          <button class="end-turn" id="endTurn" type="button" hidden>End turn</button>
+        </section>
+        <section class="score-panel">
+          <div class="score-row"><span><b class="player-chip human-chip"></b>You</span><strong id="humanCount">3 pieces</strong></div>
+          <div class="score-row"><span><b class="player-chip computer-chip"></b>Computer</span><strong id="computerCount">3 pieces</strong></div>
+          <div class="capture-score" id="captureScore" hidden>
+            <p class="eyebrow">CAPTURED</p>
+            <div class="capture-grid" aria-label="Captured pieces by type">
+              <span></span><b>R</b><b>S</b><b>P</b>
+              <span>You</span><strong id="humanCapturedRock">0</strong><strong id="humanCapturedScissors">0</strong><strong id="humanCapturedPaper">0</strong>
+              <span>Computer</span><strong id="computerCapturedRock">0</strong><strong id="computerCapturedScissors">0</strong><strong id="computerCapturedPaper">0</strong>
+            </div>
+          </div>
+        </section>
+        <section class="rules-panel">
+          <p class="eyebrow">HOW TO PLAY</p>
+          <p>Move diagonally forward onto an empty dark square. Jump over a piece to capture it; you may chain jumps. Your piece becomes a <strong>king</strong> on the far row and can move in either direction.</p>
+          <div class="type-key"><span><b class="type-rock">R</b> Rock beats rock / scissors</span><span><b class="type-scissors">S</b> Scissors beats scissors / paper</span><span><b class="type-paper">P</b> Paper beats paper / rock</span></div>
+          <p class="small-rule">Small Game: the first legal capture wins. Big Game: capture one of every type, or wipe out one type entirely.</p>
+        </section>
+      </aside>
+    </div>
+    <footer><span>RSP // ARENA</span><span>Think ahead. Read the matchup.</span></footer>
+  </main>
+  <script type="module" src="controller.js"></script>
+</body>
+</html>
