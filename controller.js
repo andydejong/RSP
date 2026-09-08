@@ -4,6 +4,11 @@ import { GameView } from "./view.js";
 
 class GameController {
   constructor() {
+    this.sounds = {
+      move: new Audio("./MOVE.WAV"),
+      win: new Audio("./WIN.WAV"),
+      lose: new Audio("./LOSE.wav"),
+    };
     this.mode = "small";
     this.firstPlayer = HUMAN;
     this.model = new GameModel(this.mode, this.firstPlayer);
@@ -73,6 +78,8 @@ class GameController {
           (candidate) => candidate.to[0] === row && candidate.to[1] === col,
         );
       this.model.applyMove(move, { continueJump: move.isJump });
+      this.playMoveSound();
+      this.playResultSound();
       if (
         this.model.compoundJump &&
         !this.model.movesFor(...this.model.compoundJump.current).length
@@ -92,6 +99,7 @@ class GameController {
     if (this.model.turn !== HUMAN || !this.model.compoundJump) return;
     this.model.endCompoundTurn();
     this.render();
+    this.playResultSound();
     if (!this.model.isOver()) this.queueComputer();
   }
   queueComputer() {
@@ -99,9 +107,24 @@ class GameController {
     this.render();
     this.computerTimer = setTimeout(() => {
       const move = chooseComputerMove(this.model);
-      if (move) this.model.applyMove(move, { computer: true });
+      if (move) {
+        this.model.applyMove(move, { computer: true });
+        this.playMoveSound();
+        this.playResultSound();
+      }
       this.render();
     }, 500);
+  }
+  playMoveSound() {
+    this.playSound(this.sounds.move);
+  }
+  playResultSound() {
+    if (this.model.winner === HUMAN) this.playSound(this.sounds.win);
+    if (this.model.winner === COMPUTER) this.playSound(this.sounds.lose);
+  }
+  playSound(sound) {
+    sound.currentTime = 0;
+    sound.play().catch(() => {});
   }
 }
 
