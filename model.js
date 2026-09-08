@@ -57,10 +57,11 @@ export class GameModel {
   }
   setupPieces() {
     if (this.mode === "small") {
-      const order = [...TYPES].sort(() => Math.random() - 0.5);
+      let order = [...TYPES].sort(() => Math.random() - 0.5);
       [1, 3, 5].forEach((col, index) => {
         this.board[0][col] = this.makePiece(COMPUTER, order[index]);
       });
+      order = [...TYPES].sort(() => Math.random() - 0.5);
       [0, 2, 4].forEach((col, index) => {
         this.board[this.size - 1][col] = this.makePiece(HUMAN, order[index]);
       });
